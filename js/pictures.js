@@ -15,9 +15,8 @@ var getRangeNumber = function (min, max) {
 var getPhotos = function () {
   var photos = [];
   for (var i = 0; i < 25; i++) {
-    var numberPhoto = i + 1;
     photos[i] = {
-      url: 'photos/' + numberPhoto + '.jpg',
+      url: 'photos/' + getRangeNumber(1,25) + '.jpg',
       likes: getRangeNumber(15, 199),
       comments: COMMENTS[getRandomNumber(COMMENTS)],
       description: DESCRIPTION[getRandomNumber(DESCRIPTION)]
@@ -52,36 +51,44 @@ var getFragment = function () {
   return fragment;
 };
 
-photoList.appendChild(getFragment());
+var bigPhotoContainer = document.querySelector('.big-picture');
 
-document.querySelector('.big-picture').classList.remove('hidden');
+bigPhotoContainer.classList.remove('hidden');
 
-var bigPhoto = photoCollection[0];
+var bigPhotoElement = photoCollection[0];
 
-document.querySelector('.big-picture__img')
-    .querySelector('img')
-    .src = bigPhoto.url;
+var getBigPhoto = function (bigPhotoOptions) {
 
-document.querySelector('.social__caption')
-    .textContent = bigPhoto.description;
+  bigPhotoOptions.querySelector('.big-picture__img')
+      .querySelector('img')
+      .src = bigPhotoElement.url;
 
-document.querySelector('.likes-count')
-    .textContent = bigPhoto.likes;
+  bigPhotoOptions.querySelector('.social__caption')
+      .textContent = bigPhotoElement.description;
 
-document.querySelector('.comments-count')
-    .textContent = bigPhoto.comments.length;
+  bigPhotoOptions.querySelector('.likes-count')
+      .textContent = bigPhotoElement.likes;
+
+  bigPhotoOptions.querySelector('.comments-count')
+      .textContent = bigPhotoElement.comments.length;
+};
 
 var renderComment = function () {
-  var commentElement = document.querySelector('.social__comment').cloneNode(true);
+  var commentElement = bigPhotoContainer.querySelector('.social__comment').cloneNode(true);
 
   commentElement.querySelector('.social__picture').src = 'img/avatar-' + getRangeNumber(1, 6) + '.svg';
-  commentElement.querySelector('.social__text').textContent = bigPhoto.comments;
+  commentElement.querySelector('.social__text').textContent = bigPhotoElement.comments;
 
   return commentElement;
 };
 
-document.querySelector('.social__comments')
-    .appendChild(renderComment());
+var photoComments = document.querySelector('.social__comments');
+
+var bigPhoto = getBigPhoto(bigPhotoContainer);
+
+photoComments.appendChild(renderComment());
+
+photoList.appendChild(getFragment());
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
