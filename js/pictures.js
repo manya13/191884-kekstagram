@@ -4,6 +4,12 @@ var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. 
 
 var DESCRIPTION = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
+var photoList = document.querySelector('.pictures');
+
+var photoComments = document.querySelector('.social__comments');
+
+var bigPhotoContainer = document.querySelector('.big-picture');
+
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
 };
@@ -27,6 +33,8 @@ var getPhotos = function () {
 
 var photoCollection = getPhotos();
 
+var bigPhotoElement = photoCollection[0];
+
 var photoTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
@@ -41,8 +49,6 @@ var renderPhoto = function (photo) {
   return photoElement;
 };
 
-var photoList = document.querySelector('.pictures');
-
 var getFragment = function () {
   var fragment = document.createDocumentFragment();
   for (var j = 0; j < photoCollection.length; j++) {
@@ -50,12 +56,6 @@ var getFragment = function () {
   }
   return fragment;
 };
-
-var bigPhotoContainer = document.querySelector('.big-picture');
-
-bigPhotoContainer.classList.remove('hidden');
-
-var bigPhotoElement = photoCollection[0];
 
 var getBigPhoto = function (photoContainer, photoElement) {
 
@@ -82,13 +82,12 @@ var renderComment = function () {
   return commentElement;
 };
 
-var photoComments = document.querySelector('.social__comments');
-
 photoComments.appendChild(renderComment());
 
 photoList.appendChild(getFragment());
 
 getBigPhoto(bigPhotoContainer, bigPhotoElement);
 
-document.querySelector('.social__comment-count').classList.add('visually-hidden');
-document.querySelector('.comments-loader').classList.add('visually-hidden');
+bigPhotoContainer.classList.remove('hidden');
+bigPhotoContainer.querySelector('.social__comment-count').classList.add('visually-hidden');
+bigPhotoContainer.querySelector('.comments-loader').classList.add('visually-hidden');
