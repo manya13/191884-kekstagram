@@ -16,7 +16,7 @@ var getPhotos = function () {
   var photos = [];
   for (var i = 0; i < 25; i++) {
     photos[i] = {
-      url: 'photos/' + getRangeNumber(1,25) + '.jpg',
+      url: 'photos/' + getRangeNumber(1, 25) + '.jpg',
       likes: getRangeNumber(15, 199),
       comments: COMMENTS[getRandomNumber(COMMENTS)],
       description: DESCRIPTION[getRandomNumber(DESCRIPTION)]
@@ -57,20 +57,20 @@ bigPhotoContainer.classList.remove('hidden');
 
 var bigPhotoElement = photoCollection[0];
 
-var getBigPhoto = function (bigPhotoOptions) {
+var getBigPhoto = function (photoContainer, photoElement) {
 
-  bigPhotoOptions.querySelector('.big-picture__img')
+  photoContainer.querySelector('.big-picture__img')
       .querySelector('img')
-      .src = bigPhotoElement.url;
+      .src = photoElement.url;
 
-  bigPhotoOptions.querySelector('.social__caption')
-      .textContent = bigPhotoElement.description;
+  photoContainer.querySelector('.social__caption')
+      .textContent = photoElement.description;
 
-  bigPhotoOptions.querySelector('.likes-count')
-      .textContent = bigPhotoElement.likes;
+  photoContainer.querySelector('.likes-count')
+      .textContent = photoElement.likes;
 
-  bigPhotoOptions.querySelector('.comments-count')
-      .textContent = bigPhotoElement.comments.length;
+  photoContainer.querySelector('.comments-count')
+      .textContent = photoElement.comments.length;
 };
 
 var renderComment = function () {
@@ -84,11 +84,11 @@ var renderComment = function () {
 
 var photoComments = document.querySelector('.social__comments');
 
-var bigPhoto = getBigPhoto(bigPhotoContainer);
-
 photoComments.appendChild(renderComment());
 
 photoList.appendChild(getFragment());
+
+getBigPhoto(bigPhotoContainer, bigPhotoElement);
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
