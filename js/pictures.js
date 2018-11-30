@@ -35,9 +35,9 @@ var getRangeNumber = function (min, max) {
 };
 
 var scalePhoto = function (step) {
-  var scale = parseInt(scaleControlValue.value) / 100 + step / 100;
+  var scale = parseInt(scaleControlValue.value, 10) / 100 + step / 100;
   photoUploadPreview.style.transform = 'scale(' + scale + ')';
-  scaleControlValue.value = (parseInt(scaleControlValue.value) + step) + '%';
+  scaleControlValue.value = (parseInt(scaleControlValue.value, 10) + step) + '%';
 };
 
 var getPhotos = function () {
@@ -175,14 +175,14 @@ var onEffectsRadioClick = function (effectButton, effect, filter) {
     effectLevelPin.addEventListener('mouseup', function () {
       var effectLevel = effectLevelPin.style.left;
       if (filter === 'blur') {
-        effectLevel = parseInt(effectLevelPin.style.left) * 3 / 100 + 'px';
+        effectLevel = parseInt(effectLevelPin.style.left, 10) * 3 / 100 + 'px';
       } else if (filter === 'brightness') {
-        effectLevel = parseInt(effectLevelPin.style.left) * 3 / 100;
+        effectLevel = parseInt(effectLevelPin.style.left, 10) * 3 / 100;
       } else if (filter === 'blur' || 'sepia') {
-        effectLevel = parseInt(effectLevelPin.style.left) / 100;
+        effectLevel = parseInt(effectLevelPin.style.left, 10) / 100;
       }
       photoUploadPreview.style.filter = '' + filter + '(' + effectLevel + ')';
-      effectLevelValue.value = parseInt(effectLevel);
+      effectLevelValue.value = parseInt(effectLevel, 10);
     });
   });
 };
