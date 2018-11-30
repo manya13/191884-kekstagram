@@ -158,13 +158,13 @@ editorPhotoClose.addEventListener('click', function () {
 });
 
 scaleControlSmaller.addEventListener('click', function () {
-  if (parseInt(scaleControlValue.value) > 25) {
+  if (parseInt(scaleControlValue.value, 10) > 25) {
     scalePhoto(-SCALE_STEP);
   }
 });
 
 scaleControlBigger.addEventListener('click', function () {
-  if (parseInt(scaleControlValue.value) < 100) {
+  if (parseInt(scaleControlValue.value, 10) < 100) {
     scalePhoto(SCALE_STEP);
   }
 });
