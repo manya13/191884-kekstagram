@@ -1,7 +1,6 @@
 'use strict';
 
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var SCALE_STEP = 25;
 
 var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
@@ -36,10 +35,10 @@ var getRangeNumber = function (min, max) {
 };
 
 var scalePhoto = function (step) {
-  var scale = parseInt(scaleControlValue.value) / 100 + step / 100
+  var scale = parseInt(scaleControlValue.value) / 100 + step / 100;
   photoUploadPreview.style.transform = 'scale(' + scale + ')';
   scaleControlValue.value = (parseInt(scaleControlValue.value) + step) + '%';
-}
+};
 
 var getPhotos = function () {
   var photos = [];
@@ -117,13 +116,13 @@ var onMiniaturePhotoClick = function (photo, miniature) {
         .querySelector('img')
         .src = photo.url;
 
-    document.addEventListener('keydown', function(evt) {
+    document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
         bigPhotoContainer.classList.add('hidden');
       }
     });
   });
-}
+};
 
 var findUrlBigPhoto = function () {
   for (var i = 0; i < photoCollection.length; i++) {
@@ -145,17 +144,17 @@ bigPhotoClose.addEventListener('click', function () {
 buttonUploadPhoto.addEventListener('change', function () {
   editorPhoto.classList.remove('hidden');
 
-  document.addEventListener('keydown', function(evt) {
+  document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       editorPhoto.classList.add('hidden');
-      //buttonUploadPhoto.value = '';
+      // buttonUploadPhoto.value = '';
     }
   });
 });
 
 editorPhotoClose.addEventListener('click', function () {
   editorPhoto.classList.add('hidden');
-  //buttonUploadPhoto.value = '';
+  // buttonUploadPhoto.value = '';
 });
 
 scaleControlSmaller.addEventListener('click', function () {
@@ -174,14 +173,14 @@ var onEffectsRadioClick = function (effectButton, effect, filter) {
   effectButton.addEventListener('click', function () {
     photoUploadPreview.querySelector('img').classList.add('effects__preview--' + effect + '');
     effectLevelPin.addEventListener('mouseup', function () {
-      var  effectLevel = effectLevelPin.style.left;
-      if (filter = 'blur') {
+      var effectLevel = effectLevelPin.style.left;
+      if (filter === 'blur') {
         effectLevel = parseInt(effectLevelPin.style.left) * 3 / 100 + 'px';
-      } else if (filter = 'brightness') {
+      } else if (filter === 'brightness') {
         effectLevel = parseInt(effectLevelPin.style.left) * 3 / 100;
-      } else if (filter = 'blur' || 'sepia') {
+      } else if (filter === 'blur' || 'sepia') {
         effectLevel = parseInt(effectLevelPin.style.left) / 100;
-      };
+      }
       photoUploadPreview.style.filter = '' + filter + '(' + effectLevel + ')';
       effectLevelValue.value = parseInt(effectLevel);
     });
