@@ -2,14 +2,16 @@
 
 var ESC_KEYCODE = 27;
 var SCALE_STEP = 25;
+var SCALE_MIN = 25;
+var SCALE_MAX = 100;
 
 var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
 var DESCRIPTION = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
-var EFFECTS = ['chrome', 'sepia', 'marvin', 'phobos', 'heat'];
+var EFFECTS = ['original', 'chrome', 'sepia', 'marvin', 'phobos', 'heat'];
 
-var FILTERS = ['grayscale', 'sepia', 'invert', 'blur', 'brightness'];
+var FILTERS = ['original', 'grayscale', 'sepia', 'invert', 'blur', 'brightness'];
 
 var photoList = document.querySelector('.pictures');
 var bigPhotoContainer = document.querySelector('.big-picture');
@@ -22,6 +24,7 @@ var scaleControlSmaller = editorPhoto.querySelector('.scale__control--smaller');
 var scaleControlBigger = editorPhoto.querySelector('.scale__control--bigger');
 var scaleControlValue = editorPhoto.querySelector('.scale__control--value');
 var photoUploadPreview = editorPhoto.querySelector('.img-upload__preview');
+var effectSlider = editorPhoto.querySelector('.img-upload__effect-level');
 var effectsRadio = editorPhoto.querySelectorAll('.effects__radio');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
@@ -158,19 +161,22 @@ editorPhotoClose.addEventListener('click', function () {
 });
 
 scaleControlSmaller.addEventListener('click', function () {
-  if (parseInt(scaleControlValue.value, 10) > 25) {
+  if (parseInt(scaleControlValue.value, 10) > SCALE_MIN) {
     scalePhoto(-SCALE_STEP);
   }
 });
 
 scaleControlBigger.addEventListener('click', function () {
-  if (parseInt(scaleControlValue.value, 10) < 100) {
+  if (parseInt(scaleControlValue.value, 10) < SCALE_MAX) {
     scalePhoto(SCALE_STEP);
   }
 });
 
 var onEffectsRadioClick = function (effectButton, effect, filter) {
   effectButton.addEventListener('click', function () {
+    if (effect === 'original') {
+      effectSlider.classList.add('hidden');
+    }
     photoUploadPreview.querySelector('img').classList.add('effects__preview--' + effect + '');
     effectLevelPin.addEventListener('mouseup', function () {
       var effectLevel = effectLevelPin.style.left;
@@ -188,8 +194,8 @@ var onEffectsRadioClick = function (effectButton, effect, filter) {
 };
 
 var findEffectPhoto = function () {
-  for (var i = 1; i < effectsRadio.length; i++) {
-    onEffectsRadioClick(effectsRadio[i], EFFECTS[i - 1], FILTERS[i - 1]);
+  for (var i = 0; i < effectsRadio.length; i++) {
+    onEffectsRadioClick(effectsRadio[i], EFFECTS[i], FILTERS[i]);
   }
 };
 
