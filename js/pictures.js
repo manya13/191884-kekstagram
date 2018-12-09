@@ -28,6 +28,8 @@ var effectSlider = editorPhoto.querySelector('.img-upload__effect-level');
 var effectsRadio = editorPhoto.querySelectorAll('.effects__radio');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
+var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
+
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -150,14 +152,14 @@ buttonUploadPhoto.addEventListener('change', function () {
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       editorPhoto.classList.add('hidden');
-      // buttonUploadPhoto.value = '';
+      buttonUploadPhoto.value = '';
     }
   });
 });
 
 editorPhotoClose.addEventListener('click', function () {
   editorPhoto.classList.add('hidden');
-  // buttonUploadPhoto.value = '';
+  buttonUploadPhoto.value = '';
 });
 
 scaleControlSmaller.addEventListener('click', function () {
@@ -172,31 +174,58 @@ scaleControlBigger.addEventListener('click', function () {
   }
 });
 
-var onEffectsRadioClick = function (effectButton, effect, filter) {
-  effectButton.addEventListener('click', function () {
-    if (effect === 'original') {
-      effectSlider.classList.add('hidden');
-    }
-    photoUploadPreview.querySelector('img').classList.add('effects__preview--' + effect + '');
-    effectLevelPin.addEventListener('mouseup', function () {
-      var effectLevel = effectLevelPin.style.left;
-      if (filter === 'blur') {
-        effectLevel = parseInt(effectLevelPin.style.left, 10) * 3 / 100 + 'px';
-      } else if (filter === 'brightness') {
-        effectLevel = parseInt(effectLevelPin.style.left, 10) * 3 / 100;
-      } else if (filter === 'blur' || 'sepia') {
-        effectLevel = parseInt(effectLevelPin.style.left, 10) / 100;
-      }
-      photoUploadPreview.style.filter = '' + filter + '(' + effectLevel + ')';
-      effectLevelValue.value = parseInt(effectLevel, 10);
-    });
-  });
-};
+effectSlider.classList.add('hidden');
 
-var findEffectPhoto = function () {
-  for (var i = 0; i < effectsRadio.length; i++) {
-    onEffectsRadioClick(effectsRadio[i], EFFECTS[i], FILTERS[i]);
+var addPhotoEffect = function (name) {
+  photoUploadPreview.querySelector('img').className = name;
+  photoUploadPreview.style.filter = '';
+  if (name != '') {
+    effectSlider.classList.remove('hidden');
+  } else {
+    effectSlider.classList.add('hidden');
   }
 };
 
-findEffectPhoto();
+var defineSaturationLevel = function (effect) {
+    var saturationLevel = (parseInt(window.getComputedStyle(effectLevelPin).left, 10) / parseInt(window.getComputedStyle(effectLevelLine).width, 10)).toFixed(2);
+    if (effect === 'invert') {
+      saturationLevel += '%';
+    } else if (effect === 'blur') {
+      saturationLevel += 'px';
+    } else if (effect === 'brightness') {
+      saturationLevel = saturationLevel * 2 + 1;
+    }
+    photoUploadPreview.style.filter = 'effect(' + saturationLevel + ')';
+    effectLevelValue.value = parseFloat(saturationLevel);
+};
+
+document.body.addEventListener("click", function(evt) {
+    if (evt.target.id === "effect-none") {
+      addPhotoEffect('');
+    } else if (evt.target.id === "effect-chrome") {
+      addPhotoEffect('effects__preview--chrome');
+      effectLevelPin.addEventListener('mouseup', function() {
+        defineSaturationLevel('grayscale');
+      });
+    } else if (evt.target.id === "effect-sepia") {
+      addPhotoEffect('effects__preview--sepia');
+      effectLevelPin.addEventListener('mouseup', function() {
+        defineSaturationLevel('sepia');
+      });
+    } else if (evt.target.id === "effect-marvin") {
+      addPhotoEffect('effects__preview--marvin');
+      effectLevelPin.addEventListener('mouseup', function() {
+        defineSaturationLevel('invert');
+      });
+    } else if (evt.target.id === "effect-phobos") {
+      addPhotoEffect('effects__preview--phobos');
+      effectLevelPin.addEventListener('mouseup', function() {
+        defineSaturationLevel('blur');
+      });
+    } else if (evt.target.id === "effect-heat") {
+      addPhotoEffect('effects__preview--heat');
+      effectLevelPin.addEventListener('mouseup', function() {
+        defineSaturationLevel('brightness');
+      });
+    }
+  });
