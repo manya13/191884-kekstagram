@@ -186,7 +186,7 @@ var addPhotoEffect = function (effect) {
 var changeFilter = function (filter) {
   var pinPosition = parseInt(window.getComputedStyle(effectLevelPin).left, 10);
   var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
-  var proportionValue =  (pinPosition / blockWidth).toFixed(2);
+  var proportionValue = (pinPosition / blockWidth).toFixed(2);
   var nameFilter = filter.replace('effects__preview--', '');
 
   switch (nameFilter) {
@@ -205,7 +205,7 @@ var changeFilter = function (filter) {
     case 'heat':
       photoUploadPreview.style.filter = 'brightness(' + (proportionValue * 2 + 1) + ')';
       break;
-  };
+  }
   effectLevelValue.value = parseFloat(photoUploadPreview.style.filter.match(/(\d[\d\.]*)/));
 };
 
