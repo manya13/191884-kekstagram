@@ -15,6 +15,7 @@ var photoComments = bigPhotoContainer.querySelector('.social__comments');
 var bigPhotoClose = bigPhotoContainer.querySelector('.big-picture__cancel');
 var buttonUploadPhoto = photoList.querySelector('#upload-file');
 var editorPhoto = photoList.querySelector('.img-upload__overlay');
+var editorEffect = editorPhoto.querySelector('.effects');
 var editorPhotoClose = photoList.querySelector('.img-upload__cancel');
 var scaleControlSmaller = editorPhoto.querySelector('.scale__control--smaller');
 var scaleControlBigger = editorPhoto.querySelector('.scale__control--bigger');
@@ -171,56 +172,53 @@ scaleControlBigger.addEventListener('click', function () {
 
 effectSlider.classList.add('hidden');
 
-var addPhotoEffect = function (name) {
-  photoUploadPreview.querySelector('img').className = name;
+var addPhotoEffect = function (effect) {
+  var nameEffect = effect.replace('effect-', '');
+  photoUploadPreview.querySelector('img').className = 'effects__preview--' + nameEffect + '';
   photoUploadPreview.style.filter = '';
-  if (name !== '') {
+  if (effect !== 'effect-none') {
     effectSlider.classList.remove('hidden');
   } else {
     effectSlider.classList.add('hidden');
   }
 };
 
-var defineSaturationLevel = function (effect) {
-  var saturationLevel = (parseInt(window.getComputedStyle(effectLevelPin).left, 10) / parseInt(window.getComputedStyle(effectLevelLine).width, 10)).toFixed(2);
-  if (effect === 'invert') {
-    saturationLevel += '%';
-  } else if (effect === 'blur') {
-    saturationLevel += 'px';
-  } else if (effect === 'brightness') {
-    saturationLevel = saturationLevel * 2 + 1;
-  }
-  photoUploadPreview.style.filter = 'effect(' + saturationLevel + ')';
-  effectLevelValue.value = parseFloat(saturationLevel);
+var changeFilter = function (filter) {
+  var pinPosition = parseInt(window.getComputedStyle(effectLevelPin).left, 10);
+  var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
+  var proportionValue =  (pinPosition / blockWidth).toFixed(2);
+  var nameFilter = filter.replace('effects__preview--', '');
+
+  switch (nameFilter) {
+    case 'chrome':
+      photoUploadPreview.style.filter = 'grayscale(' + proportionValue + ')';
+      break;
+    case 'sepia':
+      photoUploadPreview.style.filter = 'sepia(' + proportionValue + ')';
+      break;
+    case 'marvin':
+      photoUploadPreview.style.filter = 'invert(' + (proportionValue * 100 + '%') + ')';
+      break;
+    case 'phobos':
+      photoUploadPreview.style.filter = 'blur(' + (proportionValue * 3 + 'px') + ')';
+      break;
+    case 'heat':
+      photoUploadPreview.style.filter = 'brightness(' + (proportionValue * 2 + 1) + ')';
+      break;
+  };
+  effectLevelValue.value = parseFloat(photoUploadPreview.style.filter.match(/(\d[\d\.]*)/));
 };
 
-document.body.addEventListener('click', function (evt) {
-  if (evt.target.id === 'effect-none') {
-    addPhotoEffect('');
-  } else if (evt.target.id === 'effect-chrome') {
-    addPhotoEffect('effects__preview--chrome');
-    effectLevelPin.addEventListener('mouseup', function () {
-      defineSaturationLevel('grayscale');
-    });
-  } else if (evt.target.id === 'effect-sepia') {
-    addPhotoEffect('effects__preview--sepia');
-    effectLevelPin.addEventListener('mouseup', function () {
-      defineSaturationLevel('sepia');
-    });
-  } else if (evt.target.id === 'effect-marvin') {
-    addPhotoEffect('effects__preview--marvin');
-    effectLevelPin.addEventListener('mouseup', function () {
-      defineSaturationLevel('invert');
-    });
-  } else if (evt.target.id === 'effect-phobos') {
-    addPhotoEffect('effects__preview--phobos');
-    effectLevelPin.addEventListener('mouseup', function () {
-      defineSaturationLevel('blur');
-    });
-  } else if (evt.target.id === 'effect-heat') {
-    addPhotoEffect('effects__preview--heat');
-    effectLevelPin.addEventListener('mouseup', function () {
-      defineSaturationLevel('brightness');
-    });
+editorEffect.addEventListener('click', function (evt) {
+  if (evt.target.getAttribute('name', 'effect')) {
+    var radioId = evt.target.id;
+
+    addPhotoEffect(radioId);
   }
+}, true);
+
+effectLevelPin.addEventListener('mouseup', function () {
+  var nameFilter = photoUploadPreview.querySelector('img').className;
+
+  changeFilter(nameFilter);
 });
