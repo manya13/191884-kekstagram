@@ -149,7 +149,7 @@ buttonUploadPhoto.addEventListener('change', function () {
 
   document.addEventListener('keydown', function (evt) {
     if (textHashtags === document.activeElement) {
-      return evt;
+      function (evt);
     } else if (evt.keyCode === ESC_KEYCODE) {
       editorPhoto.classList.add('hidden');
       buttonUploadPhoto.value = '';
@@ -233,17 +233,19 @@ var hashtagTemplate = /^#[0-9A-Za-zЁА-Яа-яё]{1,19}/i;
 var checkHashtag = function () {
   for (var i = 0; i < hashtags.length; i++) {
     if (hashtags.length > 5) {
-    textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
+      textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
     } else if (/^#/.test(hashtags[i]) === false) {
-    textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
+      textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
     } else if (/^#$/.test(hashtags[i])) {
-    textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
+      textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
     } else if (/(#)+/.test(hashtags[i])) {
-    textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
+      textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
     } else if (hashtagTemplate.test(hashtags[i]) === false) {
-    textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
+      textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
     } else {
-    textHashtags.setCustomValidity('');
+      textHashtags.setCustomValidity('');
     }
   }
 };
+
+checkHashtag();
