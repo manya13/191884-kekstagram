@@ -144,22 +144,28 @@ bigPhotoClose.addEventListener('click', function () {
   bigPhotoContainer.classList.add('hidden');
 });
 
+var onPopupEscPress = function (evt) {
+  if (textHashtags === document.activeElement) {
+    onPopupEscPress();
+  } else if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var closePopup = function () {
+  editorPhoto.classList.add('hidden');
+  buttonUploadPhoto.value = '';
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
 buttonUploadPhoto.addEventListener('change', function () {
   editorPhoto.classList.remove('hidden');
 
-  document.addEventListener('keydown', function (evt) {
-    if (textHashtags === document.activeElement) {
-      function (evt);
-    } else if (evt.keyCode === ESC_KEYCODE) {
-      editorPhoto.classList.add('hidden');
-      buttonUploadPhoto.value = '';
-    }
-  });
+  document.addEventListener('keydown', onPopupEscPress);
 });
 
 editorPhotoClose.addEventListener('click', function () {
-  editorPhoto.classList.add('hidden');
-  buttonUploadPhoto.value = '';
+  closePopup();
 });
 
 scaleControlSmaller.addEventListener('click', function () {
