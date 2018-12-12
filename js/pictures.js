@@ -25,6 +25,8 @@ var effectSlider = editorPhoto.querySelector('.img-upload__effect-level');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
+var textHashtags = editorPhoto.querySelector('.text__hashtags');
+var hashtags = textHashtags.value.split(' ');
 
 
 var getRandomNumber = function (arr) {
@@ -146,7 +148,9 @@ buttonUploadPhoto.addEventListener('change', function () {
   editorPhoto.classList.remove('hidden');
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (textHashtags === document.activeElement) {
+      return evt;
+    } else if (evt.keyCode === ESC_KEYCODE) {
       editorPhoto.classList.add('hidden');
       buttonUploadPhoto.value = '';
     }
@@ -174,7 +178,7 @@ effectSlider.classList.add('hidden');
 
 var addPhotoEffect = function (effect) {
   var nameEffect = effect.replace('effect-', '');
-  photoUploadPreview.querySelector('img').className = 'effects__preview--' + nameEffect + '';
+  photoUploadPreview.querySelector('img').className = 'effects__preview--' + nameEffect;
   photoUploadPreview.style.filter = '';
   if (effect !== 'effect-none') {
     effectSlider.classList.remove('hidden');
@@ -222,3 +226,24 @@ effectLevelPin.addEventListener('mouseup', function () {
 
   changeFilter(nameFilter);
 });
+
+
+var hashtagTemplate = /^#[0-9A-Za-zЁА-Яа-яё]{1,19}/i;
+
+var checkHashtag = function () {
+  for (var i = 0; i < hashtags.length; i++) {
+    if (hashtags.length > 5) {
+    textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
+    } else if (/^#/.test(hashtags[i]) === false) {
+    textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
+    } else if (/^#$/.test(hashtags[i])) {
+    textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
+    } else if (/(#)+/.test(hashtags[i])) {
+    textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
+    } else if (hashtagTemplate.test(hashtags[i]) === false) {
+    textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
+    } else {
+    textHashtags.setCustomValidity('');
+    }
+  }
+};
