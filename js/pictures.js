@@ -22,11 +22,12 @@ var scaleControlBigger = editorPhoto.querySelector('.scale__control--bigger');
 var scaleControlValue = editorPhoto.querySelector('.scale__control--value');
 var photoUploadPreview = editorPhoto.querySelector('.img-upload__preview');
 var effectSlider = editorPhoto.querySelector('.img-upload__effect-level');
+var imgUploadSubmit = editorPhoto.querySelector('.img-upload__submit');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
 var textHashtags = editorPhoto.querySelector('.text__hashtags');
-var hashtags = textHashtags.value.split(' ');
+var hashtags = textHashtags.value.toUpperCase().split(' ');
 
 
 var getRandomNumber = function (arr) {
@@ -233,25 +234,22 @@ effectLevelPin.addEventListener('mouseup', function () {
   changeFilter(nameFilter);
 });
 
-
-var hashtagTemplate = /^#[0-9A-Za-zЁА-Яа-яё]{1,19}/i;
-
-var checkHashtag = function () {
+imgUploadSubmit.addEventListener('click', function () {
   for (var i = 0; i < hashtags.length; i++) {
     if (hashtags.length > 5) {
       textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
-    } else if (/^#/.test(hashtags[i]) === false) {
+    } else if (hashtags[i][0] != '#') {
       textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
-    } else if (/^#$/.test(hashtags[i])) {
+    } else if (hashtags[i][0] === '#' && hashtags[i].length === 1) {
       textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
-    } else if (/(#)+/.test(hashtags[i])) {
+    } else if (hashtags[i].indexOf('#', 1) != -1) {
       textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
-    } else if (hashtagTemplate.test(hashtags[i]) === false) {
+    } else if (hashtags[i].length > 20) {
       textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
+    } else if (hashtags.indexOf(hashtags[i], i + 1) != -1) {
+      textHashtags.setCustomValidity('Хэштеги не должны повторяться');
     } else {
       textHashtags.setCustomValidity('');
     }
   }
-};
-
-checkHashtag();
+});
