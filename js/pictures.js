@@ -238,15 +238,15 @@ imgUploadSubmit.addEventListener('click', function () {
   for (var i = 0; i < hashtags.length; i++) {
     if (hashtags.length > 5) {
       textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
-    } else if (hashtags[i][0] != '#') {
+    } else if (hashtags[i][0] !== '#') {
       textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
     } else if (hashtags[i][0] === '#' && hashtags[i].length === 1) {
       textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
-    } else if (hashtags[i].indexOf('#', 1) != -1) {
+    } else if (hashtags[i].indexOf('#', 1) !== -1) {
       textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
     } else if (hashtags[i].length > 20) {
       textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
-    } else if (hashtags.indexOf(hashtags[i], i + 1) != -1) {
+    } else if (hashtags.indexOf(hashtags[i], i + 1) !== -1) {
       textHashtags.setCustomValidity('Хэштеги не должны повторяться');
     } else {
       textHashtags.setCustomValidity('');
