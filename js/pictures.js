@@ -26,9 +26,6 @@ var imgUploadSubmit = editorPhoto.querySelector('.img-upload__submit');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
-var textHashtags = editorPhoto.querySelector('.text__hashtags');
-var hashtags = textHashtags.value.toUpperCase().split(' ');
-
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -146,7 +143,7 @@ bigPhotoClose.addEventListener('click', function () {
 });
 
 var onPopupEscPress = function (evt) {
-  if (textHashtags === document.activeElement) {
+  if (editorPhoto.querySelector('.text__hashtags') === document.activeElement) {
     onPopupEscPress();
   } else if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
@@ -235,6 +232,9 @@ effectLevelPin.addEventListener('mouseup', function () {
 });
 
 imgUploadSubmit.addEventListener('click', function () {
+  var textHashtags = editorPhoto.querySelector('.text__hashtags');
+  var hashtags = textHashtags.value.toUpperCase().split(' ');
+
   for (var i = 0; i < hashtags.length; i++) {
     if (hashtags.length > 5) {
       textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
