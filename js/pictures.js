@@ -231,7 +231,9 @@ effectLevelPin.addEventListener('mouseup', function () {
   changeFilter(nameFilter);
 });
 
-imgUploadSubmit.addEventListener('click', function () {
+// проверка хэштегов
+
+var checkHashtag = function () {
   var textHashtags = editorPhoto.querySelector('.text__hashtags');
   var hashtags = textHashtags.value.toUpperCase().split(' ');
 
@@ -252,4 +254,8 @@ imgUploadSubmit.addEventListener('click', function () {
       textHashtags.setCustomValidity('');
     }
   }
+};
+
+imgUploadSubmit.addEventListener('submit', function() {
+  checkHashtag();
 });
