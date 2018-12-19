@@ -256,6 +256,6 @@ var checkHashtag = function () {
   }
 };
 
-imgUploadSubmit.addEventListener('submit', function() {
+imgUploadSubmit.addEventListener('submit', function () {
   checkHashtag();
 });
