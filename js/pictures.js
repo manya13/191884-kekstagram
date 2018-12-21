@@ -26,6 +26,7 @@ var imgUploadSubmit = editorPhoto.querySelector('.img-upload__submit');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
+var textHashtags = editorPhoto.querySelector('.text__hashtags');
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -232,7 +233,6 @@ effectLevelPin.addEventListener('mouseup', function () {
 });
 
 // проверка хэштегов
-var textHashtags = editorPhoto.querySelector('.text__hashtags');
 var checkHashtag = function () {
   var hashtags = textHashtags.value.toUpperCase().split(' ');
   var errorMessage = '';
