@@ -232,30 +232,38 @@ effectLevelPin.addEventListener('mouseup', function () {
 });
 
 // проверка хэштегов
-
+var textHashtags = editorPhoto.querySelector('.text__hashtags');
 var checkHashtag = function () {
-  var textHashtags = editorPhoto.querySelector('.text__hashtags');
   var hashtags = textHashtags.value.toUpperCase().split(' ');
+  var errorMessage = '';
 
   for (var i = 0; i < hashtags.length; i++) {
     if (hashtags.length > 5) {
-      textHashtags.setCustomValidity('Укажите не более пяти хэштегов');
+      errorMessage = 'Хэштег должен начинаться с символа #';
     } else if (hashtags[i][0] !== '#') {
-      textHashtags.setCustomValidity('Хэштег должен начинаться с символа #');
+      errorMessage = 'Хэштег должен начинаться с символа #';
     } else if (hashtags[i][0] === '#' && hashtags[i].length === 1) {
-      textHashtags.setCustomValidity('Хэштег не может состоять только из одного символа #');
+      errorMessage = 'Хэштег не может состоять только из одного символа #';
     } else if (hashtags[i].indexOf('#', 1) !== -1) {
-      textHashtags.setCustomValidity('Добавьте пробел перед хэштегом');
+      errorMessage = 'Добавьте пробел перед хэштегом';
     } else if (hashtags[i].length > 20) {
-      textHashtags.setCustomValidity('Длина хэштега не должна превышать 20 символов');
+      errorMessage = 'Длина хэштега не должна превышать 20 символов';
     } else if (hashtags.indexOf(hashtags[i], i + 1) !== -1) {
-      textHashtags.setCustomValidity('Хэштеги не должны повторяться');
-    } else {
-      textHashtags.setCustomValidity('');
+      errorMessage = 'Хэштеги не должны повторяться';
     }
   }
+
+  return textHashtags.setCustomValidity(errorMessage);
 };
 
-imgUploadSubmit.addEventListener('submit', function () {
+imgUploadSubmit.addEventListener('click', function () {
+  checkHashtag();
+});
+
+textHashtags.addEventListener('keyup', function () {
+  checkHashtag();
+});
+
+textHashtags.addEventListener('keypress', function () {
   checkHashtag();
 });
