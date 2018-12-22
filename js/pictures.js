@@ -240,7 +240,7 @@ var checkHashtag = function () {
       errorMessage = 'Хэштег должен начинаться с символа #';
     } else if (hashtags[i][0] !== '#') {
       errorMessage = 'Хэштег должен начинаться с символа #';
-    } else if (hashtags[i][0] === '#' && hashtags[i].length === 1) {
+    } else if ((/^#$/).test(hashtags[i])) {
       errorMessage = 'Хэштег не может состоять только из одного символа #';
     } else if (hashtags[i].indexOf('#', 1) !== -1) {
       errorMessage = 'Добавьте пробел перед хэштегом';
