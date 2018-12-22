@@ -144,9 +144,7 @@ bigPhotoClose.addEventListener('click', function () {
 });
 
 var onPopupEscPress = function (evt) {
-  if (editorPhoto.querySelector('.text__hashtags') === document.activeElement) {
-    onPopupEscPress();
-  } else if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
@@ -234,7 +232,7 @@ effectLevelPin.addEventListener('mouseup', function () {
 
 // проверка хэштегов
 var checkHashtag = function () {
-  var hashtags = textHashtags.value.toUpperCase().split(' ');
+  var hashtags = textHashtags.value.toLowerCase().split(' ');
   var errorMessage = '';
 
   for (var i = 0; i < hashtags.length; i++) {
@@ -260,10 +258,14 @@ imgUploadSubmit.addEventListener('click', function () {
   checkHashtag();
 });
 
-textHashtags.addEventListener('keyup', function () {
+textHashtags.addEventListener('input', function () {
   checkHashtag();
 });
 
-textHashtags.addEventListener('keypress', function () {
-  checkHashtag();
+textHashtags.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+textHashtags.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
 });
