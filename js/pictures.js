@@ -189,7 +189,7 @@ var addPhotoEffect = function (effect) {
     effectSlider.classList.remove('hidden');
   } else {
     effectSlider.classList.add('hidden');
-  };
+  }
   photoUploadPreviewImg.style.filter = '';
   effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - PIN_CENTER + 'px';
   effectLevelDepth.style.width = effectLevelPin.style.left;
@@ -234,7 +234,7 @@ effectLevelPin.addEventListener('mousedown', function () {
 
   changeFilter(nameFilter);
 
-  var  onMouseMove = function () {
+  var onMouseMove = function () {
     changeFilter(nameFilter);
   };
 
@@ -318,7 +318,7 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
       case currentPinCoordinates >= maxPinPosition:
         effectLevelPin.style.left = maxPinPosition + 'px';
         break;
-      case 9 <= currentPinCoordinates <= maxPinPosition:
+      case PIN_CENTER <= currentPinCoordinates <= maxPinPosition:
         effectLevelPin.style.left = currentPinCoordinates + 'px';
         break;
     }
