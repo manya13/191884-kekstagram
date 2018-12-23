@@ -4,6 +4,7 @@ var ESC_KEYCODE = 27;
 var SCALE_STEP = 25;
 var SCALE_MIN = 25;
 var SCALE_MAX = 100;
+var PIN_CENTER = 9;
 
 var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
@@ -21,12 +22,14 @@ var scaleControlSmaller = editorPhoto.querySelector('.scale__control--smaller');
 var scaleControlBigger = editorPhoto.querySelector('.scale__control--bigger');
 var scaleControlValue = editorPhoto.querySelector('.scale__control--value');
 var photoUploadPreview = editorPhoto.querySelector('.img-upload__preview');
+var photoUploadPreviewImg = photoUploadPreview.querySelector('img');
 var effectSlider = editorPhoto.querySelector('.img-upload__effect-level');
 var imgUploadSubmit = editorPhoto.querySelector('.img-upload__submit');
 var effectLevelPin = editorPhoto.querySelector('.effect-level__pin');
 var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
 var textHashtags = editorPhoto.querySelector('.text__hashtags');
+var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -181,39 +184,41 @@ effectSlider.classList.add('hidden');
 
 var addPhotoEffect = function (effect) {
   var nameEffect = effect.replace('effect-', '');
-  photoUploadPreview.querySelector('img').className = 'effects__preview--' + nameEffect;
-  photoUploadPreview.style.filter = '';
+  photoUploadPreviewImg.className = 'effects__preview--' + nameEffect;
   if (effect !== 'effect-none') {
     effectSlider.classList.remove('hidden');
   } else {
     effectSlider.classList.add('hidden');
-  }
+  };
+  photoUploadPreviewImg.style.filter = '';
+  effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - PIN_CENTER + 'px';
+  effectLevelDepth.style.width = effectLevelPin.style.left;
 };
 
 var changeFilter = function (filter) {
   var pinPosition = parseInt(window.getComputedStyle(effectLevelPin).left, 10);
-  var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
+  var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - PIN_CENTER;
   var proportionValue = (pinPosition / blockWidth).toFixed(2);
   var nameFilter = filter.replace('effects__preview--', '');
 
   switch (nameFilter) {
     case 'chrome':
-      photoUploadPreview.style.filter = 'grayscale(' + proportionValue + ')';
+      photoUploadPreviewImg.style.filter = 'grayscale(' + proportionValue + ')';
       break;
     case 'sepia':
-      photoUploadPreview.style.filter = 'sepia(' + proportionValue + ')';
+      photoUploadPreviewImg.style.filter = 'sepia(' + proportionValue + ')';
       break;
     case 'marvin':
-      photoUploadPreview.style.filter = 'invert(' + (proportionValue * 100 + '%') + ')';
+      photoUploadPreviewImg.style.filter = 'invert(' + (proportionValue * 100 + '%') + ')';
       break;
     case 'phobos':
-      photoUploadPreview.style.filter = 'blur(' + (proportionValue * 3 + 'px') + ')';
+      photoUploadPreviewImg.style.filter = 'blur(' + (proportionValue * 3 + 'px') + ')';
       break;
     case 'heat':
-      photoUploadPreview.style.filter = 'brightness(' + (proportionValue * 2 + 1) + ')';
+      photoUploadPreviewImg.style.filter = 'brightness(' + (proportionValue * 2 + 1) + ')';
       break;
   }
-  effectLevelValue.value = parseFloat(photoUploadPreview.style.filter.match(/(\d[\d\.]*)/));
+  effectLevelValue.value = parseFloat(photoUploadPreviewImg.style.filter.match(/(\d[\d\.]*)/));
 };
 
 editorEffect.addEventListener('click', function (evt) {
@@ -224,10 +229,23 @@ editorEffect.addEventListener('click', function (evt) {
   }
 }, true);
 
-effectLevelPin.addEventListener('mouseup', function () {
-  var nameFilter = photoUploadPreview.querySelector('img').className;
+effectLevelPin.addEventListener('mousedown', function () {
+  var nameFilter = photoUploadPreviewImg.className;
 
   changeFilter(nameFilter);
+
+  var  onMouseMove = function () {
+    changeFilter(nameFilter);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 // проверка хэштегов
@@ -268,4 +286,53 @@ textHashtags.addEventListener('focus', function () {
 
 textHashtags.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
+});
+
+// перемещение слайдера
+
+effectLevelPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+    };
+
+    var currentPinCoordinates = effectLevelPin.offsetLeft - shift.x;
+    var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
+    var maxPinPosition = blockWidth - PIN_CENTER;
+
+    switch (true) {
+      case currentPinCoordinates <= PIN_CENTER:
+        effectLevelPin.style.left = PIN_CENTER + 'px';
+        break;
+      case currentPinCoordinates >= maxPinPosition:
+        effectLevelPin.style.left = maxPinPosition + 'px';
+        break;
+      case 9 <= currentPinCoordinates <= maxPinPosition:
+        effectLevelPin.style.left = currentPinCoordinates + 'px';
+        break;
+    }
+
+    effectLevelDepth.style.width = effectLevelPin.style.left;
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
