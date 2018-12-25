@@ -8,7 +8,6 @@
   var bigPhotoContainer = document.querySelector('.big-picture');
   var photoComments = bigPhotoContainer.querySelector('.social__comments');
   var bigPhotoClose = bigPhotoContainer.querySelector('.big-picture__cancel');
-  var buttonUploadPhoto = photoList.querySelector('#upload-file');
   var miniaturePhoto = photoList.querySelectorAll('.picture');
 
 
@@ -48,7 +47,7 @@
           .src = photo.url;
 
       document.addEventListener('keydown', function (downEvt) {
-        if (downEvt.keyCode === ESC_KEYCODE) {
+        if (downEvt.keyCode === window.ESC_KEYCODE) {
           bigPhotoContainer.classList.add('hidden');
         }
       });

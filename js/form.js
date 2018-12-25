@@ -86,7 +86,7 @@
     effectLevelDepth.style.width = effectLevelPin.style.left;
   };
 
-  //изменение уровня насыщенности эффекта
+  // изменение уровня насыщенности эффекта
 
   var changeFilter = function (filter) {
     var pinPosition = parseInt(window.getComputedStyle(effectLevelPin).left, 10);
