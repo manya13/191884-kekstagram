@@ -4,7 +4,6 @@ var ESC_KEYCODE = 27;
 var SCALE_STEP = 25;
 var SCALE_MIN = 25;
 var SCALE_MAX = 100;
-var PIN_CENTER = 9;
 
 var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
@@ -30,6 +29,7 @@ var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
 var textHashtags = editorPhoto.querySelector('.text__hashtags');
 var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
+var pinCenter =  parseInt(window.getComputedStyle(effectLevelPin).width, 10) / 2;
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -115,7 +115,8 @@ photoList.appendChild(getFragment());
 var miniaturePhoto = photoList.querySelectorAll('.picture');
 
 var onMiniaturePhotoClick = function (photo, miniature) {
-  miniature.addEventListener('click', function () {
+  miniature.addEventListener('click', function (evt) {
+    evt.preventDefault();
     bigPhotoContainer.classList.remove('hidden');
     bigPhotoContainer.querySelector('.big-picture__img')
         .querySelector('img')
@@ -191,13 +192,13 @@ var addPhotoEffect = function (effect) {
     effectSlider.classList.add('hidden');
   }
   photoUploadPreviewImg.style.filter = '';
-  effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - PIN_CENTER + 'px';
+  effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - pinCenter + 'px';
   effectLevelDepth.style.width = effectLevelPin.style.left;
 };
 
 var changeFilter = function (filter) {
   var pinPosition = parseInt(window.getComputedStyle(effectLevelPin).left, 10);
-  var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10) - PIN_CENTER;
+  var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
   var proportionValue = (pinPosition / blockWidth).toFixed(2);
   var nameFilter = filter.replace('effects__preview--', '');
 
@@ -309,16 +310,15 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
 
     var currentPinCoordinates = effectLevelPin.offsetLeft - shift.x;
     var blockWidth = parseInt(window.getComputedStyle(effectLevelLine).width, 10);
-    var maxPinPosition = blockWidth - PIN_CENTER;
 
     switch (true) {
-      case currentPinCoordinates <= PIN_CENTER:
-        effectLevelPin.style.left = PIN_CENTER + 'px';
+      case currentPinCoordinates <= 0:
+        effectLevelPin.style.left = 0;
         break;
-      case currentPinCoordinates >= maxPinPosition:
-        effectLevelPin.style.left = maxPinPosition + 'px';
+      case currentPinCoordinates >= blockWidth:
+        effectLevelPin.style.left = blockWidth + 'px';
         break;
-      case PIN_CENTER <= currentPinCoordinates <= maxPinPosition:
+      case 0 <= currentPinCoordinates <= blockWidth:
         effectLevelPin.style.left = currentPinCoordinates + 'px';
         break;
     }
