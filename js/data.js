@@ -6,23 +6,15 @@
 
   var DESCRIPTION = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
-  var getRandomNumber = function (arr) {
-    return Math.floor(Math.random() * arr.length);
-  };
-
-  var getRangeNumber = function (min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
-
   var getPhotos = function () {
     var photos = [];
     for (var i = 0; i < 25; i++) {
       var numberPhoto = i + 1;
       photos[i] = {
         url: 'photos/' + numberPhoto + '.jpg',
-        likes: getRangeNumber(15, 199),
-        comments: COMMENTS[getRandomNumber(COMMENTS)],
-        description: DESCRIPTION[getRandomNumber(DESCRIPTION)]
+        likes: window.universal.getRangeNumber(15, 199),
+        comments: COMMENTS[window.universal.getRandomNumber(COMMENTS)],
+        description: DESCRIPTION[window.universal.getRandomNumber(DESCRIPTION)]
       };
     }
     return photos;
@@ -31,7 +23,6 @@
   var photoCollection = getPhotos();
 
   window.data = {
-    getRangeNumber: getRangeNumber,
     photoCollection: photoCollection
   };
 })();

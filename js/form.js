@@ -2,9 +2,6 @@
 
 (function () {
 
-  var SCALE_STEP = 25;
-  var SCALE_MIN = 25;
-  var SCALE_MAX = 100;
 
   var photoList = document.querySelector('.pictures');
   var buttonUploadPhoto = photoList.querySelector('#upload-file');
@@ -34,7 +31,7 @@
   // открытие и закрытие формы
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.universal.ESC_KEYCODE) {
       closePopup();
     }
   };
@@ -58,14 +55,14 @@
   // изменение размера загружаемой фотографии
 
   scaleControlSmaller.addEventListener('click', function () {
-    if (parseInt(scaleControlValue.value, 10) > SCALE_MIN) {
-      scalePhoto(-SCALE_STEP);
+    if (parseInt(scaleControlValue.value, 10) > window.universal.SCALE_MIN) {
+      scalePhoto(-window.universal.SCALE_STEP);
     }
   });
 
   scaleControlBigger.addEventListener('click', function () {
-    if (parseInt(scaleControlValue.value, 10) < SCALE_MAX) {
-      scalePhoto(SCALE_STEP);
+    if (parseInt(scaleControlValue.value, 10) < window.universal.SCALE_MAX) {
+      scalePhoto(window.universal.SCALE_STEP);
     }
   });
 
