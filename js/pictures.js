@@ -29,7 +29,7 @@ var effectLevelValue = editorPhoto.querySelector('.effect-level__value');
 var effectLevelLine = editorPhoto.querySelector('.effect-level__line');
 var textHashtags = editorPhoto.querySelector('.text__hashtags');
 var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
-var pinCenter =  parseInt(window.getComputedStyle(effectLevelPin).width, 10) / 2;
+var pinCenter = parseInt(window.getComputedStyle(effectLevelPin).width, 10) / 2;
 
 var getRandomNumber = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -122,8 +122,8 @@ var onMiniaturePhotoClick = function (photo, miniature) {
         .querySelector('img')
         .src = photo.url;
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+    document.addEventListener('keydown', function (downEvt) {
+      if (downEvt.keyCode === ESC_KEYCODE) {
         bigPhotoContainer.classList.add('hidden');
       }
     });
@@ -318,7 +318,7 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
       case currentPinCoordinates >= blockWidth:
         effectLevelPin.style.left = blockWidth + 'px';
         break;
-      case 0 <= currentPinCoordinates <= blockWidth:
+      case currentPinCoordinates >= 0 && currentPinCoordinates <= blockWidth:
         effectLevelPin.style.left = currentPinCoordinates + 'px';
         break;
     }
