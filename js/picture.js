@@ -4,10 +4,7 @@
 
   var bigPhotoContainer = document.querySelector('.big-picture');
   var photoComments = bigPhotoContainer.querySelector('.social__comments');
-  var photoComment = photoComments.querySelectorAll('.social__comment');
-
   var bigPhotoClose = bigPhotoContainer.querySelector('.big-picture__cancel');
-  var buttonUploadPhoto = window.utils.photoList.querySelector('#upload-file');
 
   var renderComment = function (comments) {
     var commentElement = bigPhotoContainer.querySelector('.social__comment').cloneNode(true);
@@ -21,7 +18,7 @@
   var getComment = function (photo) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.utils.getRangeNumber(1,5); i++) {
+    for (var i = 0; i < window.utils.getRangeNumber(1, 5); i++) {
       var comment = renderComment(photo.comments[i]);
       fragment.appendChild(comment);
     }

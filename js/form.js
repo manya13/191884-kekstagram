@@ -9,13 +9,11 @@
   var photoUploadPreview = window.utils.editorPhoto.querySelector('.img-upload__preview');
   var photoUploadPreviewImg = photoUploadPreview.querySelector('img');
   var effectSlider = window.utils.editorPhoto.querySelector('.img-upload__effect-level');
-  var imgUploadSubmit = window.utils.editorPhoto.querySelector('.img-upload__submit');
   var effectLevelPin = window.utils.editorPhoto.querySelector('.effect-level__pin');
-  var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
+  //var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
   var effectLevelLine = window.utils.editorPhoto.querySelector('.effect-level__line');
   var textHashtags = window.utils.editorPhoto.querySelector('.text__hashtags');
   var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
-  var pinCenter = parseInt(window.getComputedStyle(effectLevelPin).width, 10) / 2;
 
   var getMessage = function (messageType) {
     var messageTemplate = document.querySelector('#' + messageType)
@@ -161,8 +159,8 @@
   };
 
   photoUploadForm.addEventListener('submit', function (evt) {
-  window.validity.checkHashtag();
-  window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
-  evt.preventDefault();
+    window.validity.checkHashtag();
+    window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
+    evt.preventDefault();
   });
 })();
