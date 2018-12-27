@@ -10,7 +10,6 @@
   var photoUploadPreviewImg = photoUploadPreview.querySelector('img');
   var effectSlider = window.utils.editorPhoto.querySelector('.img-upload__effect-level');
   var effectLevelPin = window.utils.editorPhoto.querySelector('.effect-level__pin');
-  //var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
   var effectLevelLine = window.utils.editorPhoto.querySelector('.effect-level__line');
   var textHashtags = window.utils.editorPhoto.querySelector('.text__hashtags');
   var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
@@ -105,6 +104,8 @@
         photoUploadPreviewImg.style.filter = 'brightness(' + (proportionValue * 2 + 1) + ')';
         break;
     }
+
+    // var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
     // effectLevelValue.value = parseFloat(photoUploadPreviewImg.style.filter.match(/(\d[\d\.]*)/)); не пойму, почему не работает?
   };
 
