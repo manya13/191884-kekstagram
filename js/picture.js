@@ -2,65 +2,64 @@
 
 (function () {
 
-  var photoList = document.querySelector('.pictures');
   var bigPhotoContainer = document.querySelector('.big-picture');
   var photoComments = bigPhotoContainer.querySelector('.social__comments');
+  var photoComment = photoComments.querySelectorAll('.social__comment');
+
   var bigPhotoClose = bigPhotoContainer.querySelector('.big-picture__cancel');
-  var miniaturePhoto = photoList.querySelectorAll('.picture');
+  var buttonUploadPhoto = window.utils.photoList.querySelector('#upload-file');
 
-
-  var getBigPhoto = function (photoContainer, photoElement) {
-    for (var i = 0; i < window.data.photoCollection.length; i++) {
-      photoContainer.querySelector('.social__caption')
-          .textContent = photoElement[i].description;
-
-      photoContainer.querySelector('.likes-count')
-          .textContent = photoElement[i].likes;
-
-      photoContainer.querySelector('.comments-count')
-          .textContent = photoElement[i].comments.length;
-    }
-  };
-
-  var renderComment = function () {
+  var renderComment = function (comments) {
     var commentElement = bigPhotoContainer.querySelector('.social__comment').cloneNode(true);
 
-    commentElement.querySelector('.social__picture').src = 'img/avatar-' + window.universal.getRangeNumber(1, 6) + '.svg';
-
-    for (var i = 0; i < window.data.photoCollection.length; i++) {
-      commentElement.querySelector('.social__text').textContent = window.data.photoCollection[i].comments;
-    }
+    commentElement.querySelector('.social__text').textContent = comments.message;
+    commentElement.querySelector('.social__picture').src = comments.avatar;
 
     return commentElement;
   };
 
-  photoComments.appendChild(renderComment());
+  var getComment = function (photo) {
+    var fragment = document.createDocumentFragment();
 
-  var showBigPhoto = function (photo, miniature) {
-    miniature.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      bigPhotoContainer.classList.remove('hidden');
-      bigPhotoContainer.querySelector('.big-picture__img')
-          .querySelector('img')
-          .src = photo.url;
-
-      document.addEventListener('keydown', function (downEvt) {
-        if (downEvt.keyCode === window.universal.ESC_KEYCODE) {
-          bigPhotoContainer.classList.add('hidden');
-        }
-      });
-    });
-  };
-
-  var findUrlBigPhoto = function () {
-    for (var i = 0; i < window.data.photoCollection.length; i++) {
-      showBigPhoto(window.data.photoCollection[i], miniaturePhoto[i]);
+    for (var i = 0; i < window.utils.getRangeNumber(1,5); i++) {
+      var comment = renderComment(photo.comments[i]);
+      fragment.appendChild(comment);
     }
+    photoComments.innerHTML = '';
+    photoComments.appendChild(fragment);
   };
 
-  findUrlBigPhoto();
+  var getBigPhoto = function (photoElement) {
+    bigPhotoContainer.querySelector('.social__caption')
+        .textContent = photoElement.description;
 
-  getBigPhoto(bigPhotoContainer, window.data.photoCollection);
+    bigPhotoContainer.querySelector('.likes-count')
+        .textContent = photoElement.likes;
+
+    bigPhotoContainer.querySelector('.comments-count')
+        .textContent = photoElement.comments.length;
+
+    bigPhotoContainer.querySelector('.big-picture__img')
+        .querySelector('img')
+        .src = photoElement.url;
+  };
+
+  window.utils.photoList.addEventListener('click', function (evt) {
+    if (evt.target.className === 'picture__img') {
+      evt.preventDefault();
+      var pictureId = evt.target.getAttribute('picture__id');
+
+      bigPhotoContainer.classList.remove('hidden');
+      getBigPhoto(window.photoCollection[pictureId]);
+      getComment(window.photoCollection[pictureId]);
+    }
+
+    document.addEventListener('keydown', function (downEvt) {
+      if (downEvt.keyCode === window.utils.ESC_KEYCODE) {
+        bigPhotoContainer.classList.add('hidden');
+      }
+    });
+  });
 
   bigPhotoContainer.querySelector('.social__comment-count').classList.add('visually-hidden');
   bigPhotoContainer.querySelector('.comments-loader').classList.add('visually-hidden');
