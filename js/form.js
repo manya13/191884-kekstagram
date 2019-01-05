@@ -28,34 +28,38 @@
     };
   };
 
+  var resetFilter = function () {
+    photoUploadPreviewImg.style.filter = '';
+    effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) + 'px';
+    effectLevelDepth.style.width = effectLevelPin.style.left;
+  };
+
   var successMessage = getMessage('success');
   var errorMessage = getMessage('error');
 
   var closeEscSuccesMessage = window.utils.closeEsc(successMessage);
   var closeEscErrorMessage = window.utils.closeEsc(errorMessage);
 
-  var closeMessage = function (message, func) {
+  var closeMessage = function (message, callback) {
     message.button[0].addEventListener('click', function () {
-      func();
+      callback();
       if (message === errorMessage) {
         window.utils.editorPhoto.classList.remove('hidden');
       }
     });
 
-    document.addEventListener('keydown', func);
+    document.addEventListener('keydown', callback);
     document.addEventListener('click', function () {
-      func();
+      callback();
     });
   };
 
   buttonUploadPhoto.addEventListener('change', function () {
     window.utils.editorPhoto.classList.remove('hidden');
     effectSlider.classList.add('hidden');
-    photoUploadPreviewImg.style.filter = '';
-    effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) + 'px';
-    effectLevelDepth.style.width = effectLevelPin.style.left;
     photoUploadPreviewImg.className = '';
     textHashtags.style.outline = 'none';
+    resetFilter();
 
     document.addEventListener('keydown', window.validity.closeEscEditorPhoto);
   });
@@ -74,9 +78,7 @@
     } else {
       effectSlider.classList.add('hidden');
     }
-    photoUploadPreviewImg.style.filter = '';
-    effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) + 'px';
-    effectLevelDepth.style.width = effectLevelPin.style.left;
+    resetFilter();
   };
 
   // изменение уровня насыщенности эффекта

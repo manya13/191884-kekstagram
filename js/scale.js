@@ -3,7 +3,6 @@
 (function () {
 
   var SCALE_STEP = 25;
-  var SCALE_MIN = 25;
   var SCALE_MAX = 100;
 
   var scaleControlSmaller = window.utils.editorPhoto.querySelector('.scale__control--smaller');
@@ -18,7 +17,7 @@
   };
 
   scaleControlSmaller.addEventListener('click', function () {
-    if (parseInt(scaleControlValue.value, 10) > SCALE_MIN) {
+    if (parseInt(scaleControlValue.value, 10) > SCALE_STEP) {
       scalePhoto(-SCALE_STEP);
     }
   });
