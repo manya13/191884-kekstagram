@@ -12,7 +12,7 @@
     photoElement.querySelector('.picture__img').src = photo.url;
     photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__img').setAttribute('picture__id', id);
+    photoElement.querySelector('.picture__img').setAttribute('id', id);
 
     return photoElement;
   };
@@ -29,11 +29,7 @@
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '20px';
+    node.classList.add('loading-error');
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);

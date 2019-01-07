@@ -44,7 +44,7 @@
   window.utils.photoList.addEventListener('click', function (evt) {
     if (evt.target.className === 'picture__img') {
       evt.preventDefault();
-      var pictureId = evt.target.getAttribute('picture__id');
+      var pictureId = evt.target.getAttribute('id');
 
       bigPhotoContainer.classList.remove('hidden');
       getBigPhoto(window.photoCollection[pictureId]);

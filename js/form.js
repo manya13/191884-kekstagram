@@ -13,6 +13,7 @@
   var effectLevelLine = window.utils.editorPhoto.querySelector('.effect-level__line');
   var textHashtags = window.utils.editorPhoto.querySelector('.text__hashtags');
   var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
+  var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
 
   var getMessage = function (messageType) {
     var messageTemplate = document.querySelector('#' + messageType)
@@ -49,9 +50,7 @@
     });
 
     document.addEventListener('keydown', callback);
-    document.addEventListener('click', function () {
-      callback();
-    });
+    document.addEventListener('click', callback);
   };
 
   buttonUploadPhoto.addEventListener('change', function () {
@@ -107,8 +106,7 @@
         break;
     }
 
-    // var effectLevelValue = window.utils.editorPhoto.querySelector('.effect-level__value');
-    // effectLevelValue.value = parseFloat(photoUploadPreviewImg.style.filter.match(/(\d[\d\.]*)/)); не пойму, почему не работает?
+    effectLevelValue.setAttribute('value', parseFloat(photoUploadPreviewImg.style.filter.match(/(\d[\d\.]*)/)));
   };
 
   editorEffect.addEventListener('click', function (evt) {
