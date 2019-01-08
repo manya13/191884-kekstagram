@@ -41,16 +41,16 @@
   var closeEscSuccesMessage = window.utils.closeEsc(successMessage);
   var closeEscErrorMessage = window.utils.closeEsc(errorMessage);
 
-  var closeMessage = function (message, callback) {
-    message.button[0].addEventListener('click', function () {
-      callback();
-      if (message === errorMessage) {
-        window.utils.editorPhoto.classList.remove('hidden');
-      }
-    });
+  var openMessage = function (message, messageClass, cb) {
+    window.utils.editorPhoto.classList.add('hidden');
+    message.message.className = messageClass;
+    buttonUploadPhoto.value = '';
 
-    document.addEventListener('keydown', callback);
-    document.addEventListener('click', callback);
+    message.button.forEach(function (item) {
+      item.addEventListener('click', cb);
+    });
+    document.addEventListener('keydown', cb);
+    document.addEventListener('click', cb);
   };
 
   buttonUploadPhoto.addEventListener('change', function () {
@@ -63,9 +63,7 @@
     document.addEventListener('keydown', window.validity.closeEscEditorPhoto);
   });
 
-  editorPhotoClose.addEventListener('click', function () {
-    window.validity.closeEscEditorPhoto();
-  });
+  editorPhotoClose.addEventListener('click', window.validity.closeEscEditorPhoto);
 
   // применение эффектов
 
@@ -112,14 +110,12 @@
   editorEffect.addEventListener('click', function (evt) {
     if (evt.target.getAttribute('name', 'effect')) {
       var radioId = evt.target.id;
-
       addPhotoEffect(radioId);
     }
   }, true);
 
   effectLevelPin.addEventListener('mousedown', function () {
     var nameFilter = photoUploadPreviewImg.className;
-
     changeFilter(nameFilter);
 
     var onMouseMove = function () {
@@ -137,31 +133,17 @@
   });
 
   var successHandler = function () {
-    window.utils.editorPhoto.classList.add('hidden');
-    photoUploadForm.reset();
-    buttonUploadPhoto.value = '';
-
-    successMessage.message.className = 'success';
-
-    closeMessage(successMessage, closeEscSuccesMessage);
+    openMessage(successMessage, 'success', closeEscSuccesMessage);
   };
 
   var errorHandler = function () {
-    window.utils.editorPhoto.classList.add('hidden');
-    errorMessage.message.className = 'error';
-
-    errorMessage.button[1].addEventListener('click', function () {
-      closeEscErrorMessage();
-      photoUploadForm.reset();
-      buttonUploadPhoto.value = '';
-    });
-
-    closeMessage(errorMessage, closeEscErrorMessage);
+    openMessage(errorMessage, 'error', closeEscErrorMessage);
   };
 
   photoUploadForm.addEventListener('submit', function (evt) {
     window.validity.checkHashtag();
     window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
     evt.preventDefault();
+    photoUploadForm.reset();
   });
 })();

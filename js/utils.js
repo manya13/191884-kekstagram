@@ -35,7 +35,6 @@
     return closePopup;
   };
 
-
   window.utils = {
     getRandomNumber: getRandomNumber,
     getRangeNumber: getRangeNumber,

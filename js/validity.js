@@ -8,10 +8,10 @@
   var closeEscEditorPhoto = window.utils.closeEsc(window.utils.editorPhoto);
 
   var checkHashtag = function () {
+    var errorMessage = '';
+
     if (textHashtags.value !== '') {
       var hashtags = textHashtags.value.toLowerCase().split(' ');
-
-      var errorMessage = '';
 
       for (var i = 0; i < hashtags.length; i++) {
         if (hashtags.length > 5) {
@@ -38,9 +38,7 @@
     return textHashtags.setCustomValidity(errorMessage);
   };
 
-  textHashtags.addEventListener('input', function () {
-    checkHashtag();
-  });
+  textHashtags.addEventListener('input', checkHashtag);
 
   textHashtags.addEventListener('focus', function () {
     document.removeEventListener('keydown', closeEscEditorPhoto);
