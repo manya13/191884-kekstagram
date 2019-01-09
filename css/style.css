@@ -1233,6 +1233,17 @@ main {
 
 /* Экраны с сообщениями для пользователя
    ========================================================================== */
+.loading-error {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0 auto;
+
+  text-align: center;
+  background-color: red;
+  font-size: 20px;
+}
 
 .img-upload__message {
   position: absolute;
