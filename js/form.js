@@ -38,8 +38,8 @@
   var successMessage = getMessage('success');
   var errorMessage = getMessage('error');
 
-  var closeEscSuccesMessage = window.utils.closeEsc(successMessage);
-  var closeEscErrorMessage = window.utils.closeEsc(errorMessage);
+  var onSuccesMessageEscPress = window.utils.closeEsc(successMessage);
+  var onErrorMessageEscPress = window.utils.closeEsc(errorMessage);
 
   var openMessage = function (message, messageClass, cb) {
     window.utils.editorPhoto.classList.add('hidden');
@@ -47,10 +47,10 @@
     buttonUploadPhoto.value = '';
 
     message.button.forEach(function (item) {
-      item.addEventListener('click', cb);
+      item.addEventListener('click', cb.closePopup);
     });
-    document.addEventListener('keydown', cb);
-    document.addEventListener('click', cb);
+    document.addEventListener('keydown', cb.onEscPress);
+    document.addEventListener('click', cb.closePopup);
   };
 
   buttonUploadPhoto.addEventListener('change', function () {
@@ -58,12 +58,13 @@
     effectSlider.classList.add('hidden');
     photoUploadPreviewImg.className = '';
     textHashtags.style.outline = 'none';
+    photoUploadPreview.style.transform = '';
     resetFilter();
 
-    document.addEventListener('keydown', window.validity.closeEscEditorPhoto);
+    document.addEventListener('keydown', window.validity.onEditorPhotoEscPress.onEscPress);
   });
 
-  editorPhotoClose.addEventListener('click', window.validity.closeEscEditorPhoto);
+  editorPhotoClose.addEventListener('click', window.validity.onEditorPhotoEscPress.closePopup);
 
   // применение эффектов
 
@@ -133,11 +134,11 @@
   });
 
   var successHandler = function () {
-    openMessage(successMessage, 'success', closeEscSuccesMessage);
+    openMessage(successMessage, 'success', onSuccesMessageEscPress);
   };
 
   var errorHandler = function () {
-    openMessage(errorMessage, 'error', closeEscErrorMessage);
+    openMessage(errorMessage, 'error', onErrorMessageEscPress);
   };
 
   photoUploadForm.addEventListener('submit', function (evt) {

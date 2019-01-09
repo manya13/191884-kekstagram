@@ -6,6 +6,7 @@
   var photoList = document.querySelector('.pictures');
   var editorPhoto = photoList.querySelector('.img-upload__overlay');
   var buttonUploadPhoto = photoList.querySelector('#upload-file');
+  var bigPhotoContainer = document.querySelector('.big-picture');
 
   var getRandomNumber = function (arr) {
     return Math.floor(Math.random() * arr.length);
@@ -23,7 +24,7 @@
     };
 
     var closePopup = function () {
-      if (elem === editorPhoto) {
+      if (elem === editorPhoto || elem === bigPhotoContainer) {
         elem.classList.add('hidden');
         buttonUploadPhoto.value = '';
       } else {
@@ -32,7 +33,10 @@
 
       document.removeEventListener('keydown', onEscPress);
     };
-    return closePopup;
+    return {
+      onEscPress: onEscPress,
+      closePopup: closePopup
+    }
   };
 
   window.utils = {
