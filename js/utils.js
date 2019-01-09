@@ -36,7 +36,7 @@
     return {
       onEscPress: onEscPress,
       closePopup: closePopup
-    }
+    };
   };
 
   window.utils = {

@@ -7,16 +7,16 @@
   var updatePhoto = function (evt) {
     var picture = document.querySelectorAll('.picture');
     picture.forEach(function (item) {
-        item.remove();
-      });
+      item.remove();
+    });
 
     var newPhotoCollection = [];
 
-    if(evt.target.id === 'filter-popular') {
+    if (evt.target.id === 'filter-popular') {
       newPhotoCollection = window.photoCollection;
-    } else if(evt.target.id === 'filter-new') {
+    } else if (evt.target.id === 'filter-new') {
       newPhotoCollection = window.photoCollection.slice(window.utils.getRangeNumber(0, 15)).slice(0, 10);
-    } else if(evt.target.id === 'filter-discussed') {
+    } else if (evt.target.id === 'filter-discussed') {
       newPhotoCollection = window.photoCollection.slice().sort(function (a, b) {
         return b.comments.length - a.comments.length;
       });
@@ -24,8 +24,8 @@
 
     window.render.render(newPhotoCollection);
 
-    window.utils.photoList.addEventListener('click', function (evt) {
-      window.picture.openBigPhoto(evt, newPhotoCollection);
+    window.utils.photoList.addEventListener('click', function (evnt) {
+      window.picture.openBigPhoto(evnt, newPhotoCollection);
     });
 
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');

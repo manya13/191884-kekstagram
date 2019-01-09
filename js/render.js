@@ -2,8 +2,6 @@
 
 (function () {
 
-  var galleryFilters = document.querySelector('.img-filters');
-
   var photoTemplate = document.querySelector('#picture')
       .content
       .querySelector('.picture');
