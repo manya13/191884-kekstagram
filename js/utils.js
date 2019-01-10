@@ -7,7 +7,6 @@
 
   var photoList = document.querySelector('.pictures');
   var editorPhoto = photoList.querySelector('.img-upload__overlay');
-  var buttonUploadPhoto = photoList.querySelector('#upload-file');
   var bigPhotoContainer = document.querySelector('.big-picture');
 
   var getRandomNumber = function (arr) {
@@ -18,10 +17,10 @@
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-   var closeEsc = function (elem) {
+  var closeEsc = function (parameter) {
     var onEscPress = function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        closePopup(elem);
+        closePopup(parameter);
       }
     };
 
