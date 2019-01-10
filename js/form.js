@@ -65,6 +65,8 @@
     photoUploadPreview.style.transform = '';
     resetFilter();
 
+    window.utils.uploadPhoto(buttonUploadPhoto, photoUploadPreviewImg);
+
     document.addEventListener('keydown', window.validity.onEditorPhotoEscPress);
   });
 

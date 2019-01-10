@@ -4,6 +4,7 @@
 
   var ESC_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var photoList = document.querySelector('.pictures');
   var editorPhoto = photoList.querySelector('.img-upload__overlay');
@@ -17,10 +18,10 @@
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  var closeEsc = function (parameter) {
+  var closeEsc = function (element) {
     var onEscPress = function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        closePopup(parameter);
+        closePopup(element);
       }
     };
 
@@ -49,12 +50,31 @@
     };
   };
 
+  var uploadPhoto = function (button, img) {
+    var file = button.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+     return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        img.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
+  };
+
   window.utils = {
     getRandomNumber: getRandomNumber,
     getRangeNumber: getRangeNumber,
     closeEsc: closeEsc,
     photoList: photoList,
     editorPhoto: editorPhoto,
-    debounce: debounce
+    debounce: debounce,
+    uploadPhoto: uploadPhoto
   };
 })();
