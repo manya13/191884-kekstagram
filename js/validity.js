@@ -41,19 +41,19 @@
   textHashtags.addEventListener('input', checkHashtag);
 
   textHashtags.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onEditorPhotoEscPress.onEscPress);
+    document.removeEventListener('keydown', onEditorPhotoEscPress);
   });
 
   textHashtags.addEventListener('blur', function () {
-    document.addEventListener('keydown', onEditorPhotoEscPress.onEscPress);
+    document.addEventListener('keydown', onEditorPhotoEscPress);
   });
 
   textDescription.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onEditorPhotoEscPress.onEscPress);
+    document.removeEventListener('keydown', onEditorPhotoEscPress);
   });
 
   textDescription.addEventListener('blur', function () {
-    document.addEventListener('keydown', onEditorPhotoEscPress.onEscPress);
+    document.addEventListener('keydown', onEditorPhotoEscPress);
   });
 
   window.validity = {

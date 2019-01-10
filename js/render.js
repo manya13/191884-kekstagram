@@ -17,7 +17,7 @@
     return photoElement;
   };
 
-  var render = function (data) {
+  var createGallery = function (data) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < data.length; i++) {
@@ -27,6 +27,6 @@
   };
 
   window.render = {
-    render: render
+    createGallery: createGallery
   };
 })();

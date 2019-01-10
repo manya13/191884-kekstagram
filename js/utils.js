@@ -3,6 +3,8 @@
 (function () {
 
   var ESC_KEYCODE = 27;
+  var DEBOUNCE_INTERVAL = 500;
+
   var photoList = document.querySelector('.pictures');
   var editorPhoto = photoList.querySelector('.img-upload__overlay');
   var buttonUploadPhoto = photoList.querySelector('#upload-file');
@@ -16,26 +18,35 @@
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  var closeEsc = function (elem) {
+   var closeEsc = function (elem) {
     var onEscPress = function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        closePopup();
+        closePopup(elem);
       }
     };
 
-    var closePopup = function () {
+    var closePopup = function (elem) {
       if (elem === editorPhoto || elem === bigPhotoContainer) {
         elem.classList.add('hidden');
-        buttonUploadPhoto.value = '';
       } else {
         elem.message.className = 'hidden';
       }
-
       document.removeEventListener('keydown', onEscPress);
     };
-    return {
-      onEscPress: onEscPress,
-      closePopup: closePopup
+    return onEscPress;
+  };
+
+  var debounce = function (cb) {
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, DEBOUNCE_INTERVAL);
     };
   };
 
@@ -45,6 +56,6 @@
     closeEsc: closeEsc,
     photoList: photoList,
     editorPhoto: editorPhoto,
-    ESC_KEYCODE: ESC_KEYCODE
+    debounce: debounce
   };
 })();

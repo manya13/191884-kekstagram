@@ -58,18 +58,17 @@
 
       var pictureId = evt.target.getAttribute('id');
       var takeNumber = arr[pictureId].comments.length > MAX_COMMENT ? MAX_COMMENT : arr[pictureId].comments.length;
-      var countComments = takeNumber;
 
       openComments.textContent = takeNumber;
       getBigPhoto(arr[pictureId]);
       getComment(arr[pictureId], takeNumber);
 
       commentUploadButton.addEventListener('click', function () {
-        var hiddenComments = arr[pictureId].comments.length - countComments;
-        if (hiddenComments > takeNumber) {
-          countComments += takeNumber;
-          getComment(arr[pictureId], countComments);
-          openComments.textContent = countComments;
+        var hiddenComments = arr[pictureId].comments.length - takeNumber;
+        if (hiddenComments > MAX_COMMENT) {
+          takeNumber += MAX_COMMENT;
+          getComment(arr[pictureId], takeNumber);
+          openComments.textContent = takeNumber;
         } else {
           getComment(arr[pictureId], arr[pictureId].comments.length);
           openComments.textContent = arr[pictureId].comments.length;
@@ -86,7 +85,7 @@
   window.utils.photoList.addEventListener('click', function (evt) {
     openBigPhoto(evt, window.photoCollection);
     var onBigPhotoContainerEscPress = window.utils.closeEsc(bigPhotoContainer);
-    document.addEventListener('keydown', onBigPhotoContainerEscPress.onEscPress);
+    document.addEventListener('keydown', onBigPhotoContainerEscPress);
   });
 
   window.picture = {

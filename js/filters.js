@@ -22,7 +22,7 @@
       });
     }
 
-    window.render.render(newPhotoCollection);
+    window.render.createGallery(newPhotoCollection);
 
     window.utils.photoList.addEventListener('click', function (evnt) {
       window.picture.openBigPhoto(evnt, newPhotoCollection);
@@ -32,7 +32,7 @@
     evt.target.classList.add('img-filters__button--active');
   };
 
-  var debounceFilters = window.debounce(updatePhoto);
+  var debounceFilters = window.utils.debounce(updatePhoto);
 
   imgFiltersButton.forEach(function (item) {
     item.addEventListener('click', function (evt) {

@@ -5,7 +5,7 @@
   var galleryFilters = document.querySelector('.img-filters');
 
   var successHandler = function (photos) {
-    window.render.render(photos);
+    window.render.createGallery(photos);
     galleryFilters.classList.remove('img-filters--inactive');
     window.photoCollection = photos;
   };

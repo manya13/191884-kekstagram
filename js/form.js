@@ -47,10 +47,14 @@
     buttonUploadPhoto.value = '';
 
     message.button.forEach(function (item) {
-      item.addEventListener('click', cb.closePopup);
+      item.addEventListener('click', function () {
+        message.message.className = 'hidden';
+      });
     });
-    document.addEventListener('keydown', cb.onEscPress);
-    document.addEventListener('click', cb.closePopup);
+    document.addEventListener('keydown', cb);
+    document.addEventListener('click', function () {
+      message.message.className = 'hidden';
+    });
   };
 
   buttonUploadPhoto.addEventListener('change', function () {
@@ -61,10 +65,13 @@
     photoUploadPreview.style.transform = '';
     resetFilter();
 
-    document.addEventListener('keydown', window.validity.onEditorPhotoEscPress.onEscPress);
+    document.addEventListener('keydown', window.validity.onEditorPhotoEscPress);
   });
 
-  editorPhotoClose.addEventListener('click', window.validity.onEditorPhotoEscPress.closePopup);
+  editorPhotoClose.addEventListener('click', function () {
+    window.utils.editorPhoto.classList.add('hidden');
+    buttonUploadPhoto.value = '';
+  });
 
   // применение эффектов
 
