@@ -6,6 +6,7 @@
   var buttonUploadPhoto = window.utils.photoList.querySelector('#upload-file');
   var editorEffect = window.utils.editorPhoto.querySelector('.effects');
   var editorPhotoClose = window.utils.photoList.querySelector('.img-upload__cancel');
+  var editorPhotoButton = window.utils.photoList.querySelector('.img-upload__submit');
   var photoUploadPreview = window.utils.editorPhoto.querySelector('.img-upload__preview');
   var photoUploadPreviewImg = photoUploadPreview.querySelector('img');
   var effectSlider = window.utils.editorPhoto.querySelector('.img-upload__effect-level');
@@ -33,6 +34,13 @@
     photoUploadPreviewImg.style.filter = '';
     effectLevelPin.style.left = parseInt(window.getComputedStyle(effectLevelLine).width, 10) + 'px';
     effectLevelDepth.style.width = effectLevelPin.style.left;
+  };
+
+  var submitForm = function (evt) {
+    window.validity.checkHashtag();
+    window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
+    evt.preventDefault();
+    photoUploadForm.reset();
   };
 
   var successMessage = getMessage('success');
@@ -151,9 +159,12 @@
   };
 
   photoUploadForm.addEventListener('submit', function (evt) {
-    window.validity.checkHashtag();
-    window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
-    evt.preventDefault();
-    photoUploadForm.reset();
+    submitForm(evt);
+  });
+
+  editorPhotoButton.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
+      submitForm(evt);
+    }
   });
 })();

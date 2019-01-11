@@ -25,7 +25,7 @@
     window.render.createGallery(newPhotoCollection);
 
     window.utils.photoList.addEventListener('click', function (evnt) {
-      window.picture.openBigPhoto(evnt, newPhotoCollection);
+      window.picture.createBigPhoto(evnt, newPhotoCollection);
     });
 
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');

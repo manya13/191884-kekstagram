@@ -3,6 +3,7 @@
 (function () {
 
   var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500;
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -75,6 +76,7 @@
     photoList: photoList,
     editorPhoto: editorPhoto,
     debounce: debounce,
-    uploadPhoto: uploadPhoto
+    uploadPhoto: uploadPhoto,
+    ENTER_KEYCODE: ENTER_KEYCODE
   };
 })();
