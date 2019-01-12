@@ -6,7 +6,6 @@
   var buttonUploadPhoto = window.utils.photoList.querySelector('#upload-file');
   var editorEffect = window.utils.editorPhoto.querySelector('.effects');
   var editorPhotoClose = window.utils.photoList.querySelector('.img-upload__cancel');
-  var editorPhotoButton = window.utils.photoList.querySelector('.img-upload__submit');
   var photoUploadPreview = window.utils.editorPhoto.querySelector('.img-upload__preview');
   var photoUploadPreviewImg = photoUploadPreview.querySelector('img');
   var effectSlider = window.utils.editorPhoto.querySelector('.img-upload__effect-level');
