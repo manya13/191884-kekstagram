@@ -98,12 +98,6 @@
     openBigPhoto(evt);
   });
 
-  window.utils.photoList.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
-      openBigPhoto(evt);
-    }
-  });
-
   window.picture = {
     createBigPhoto: createBigPhoto
   };

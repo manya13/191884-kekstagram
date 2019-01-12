@@ -161,10 +161,4 @@
   photoUploadForm.addEventListener('submit', function (evt) {
     submitForm(evt);
   });
-
-  editorPhotoButton.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
-      submitForm(evt);
-    }
-  });
 })();
