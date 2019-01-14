@@ -35,6 +35,13 @@
     effectLevelDepth.style.width = effectLevelPin.style.left;
   };
 
+  var submitForm = function (evt) {
+    window.validity.checkHashtag();
+    window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
+    evt.preventDefault();
+    photoUploadForm.reset();
+  };
+
   var successMessage = getMessage('success');
   var errorMessage = getMessage('error');
 
@@ -64,6 +71,8 @@
     textHashtags.style.outline = 'none';
     photoUploadPreview.style.transform = '';
     resetFilter();
+
+    window.utils.uploadPhoto(buttonUploadPhoto, photoUploadPreviewImg);
 
     document.addEventListener('keydown', window.validity.onEditorPhotoEscPress);
   });
@@ -149,9 +158,6 @@
   };
 
   photoUploadForm.addEventListener('submit', function (evt) {
-    window.validity.checkHashtag();
-    window.backend.save(new FormData(photoUploadForm), successHandler, errorHandler);
-    evt.preventDefault();
-    photoUploadForm.reset();
+    submitForm(evt);
   });
 })();

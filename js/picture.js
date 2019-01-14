@@ -51,44 +51,54 @@
         .src = photoElement.url;
   };
 
-  var openBigPhoto = function (evt, arr) {
+  var createBigPhotoItems = function (photo) {
+    var takeNumber = photo.comments.length > MAX_COMMENT ? MAX_COMMENT : photo.comments.length;
+    openComments.textContent = takeNumber;
+
+    getBigPhoto(photo);
+    getComment(photo, takeNumber);
+
+    commentUploadButton.addEventListener('click', function () {
+      var hiddenComments = photo.comments.length - takeNumber;
+      if (hiddenComments > MAX_COMMENT) {
+        takeNumber += MAX_COMMENT;
+        getComment(photo, takeNumber);
+        openComments.textContent = takeNumber;
+      } else {
+        getComment(photo, photo.comments.length);
+        openComments.textContent = photo.comments.length;
+        commentUploadButton.classList.add('visually-hidden');
+      }
+    });
+  };
+
+  var createBigPhoto = function (evt, arr) {
+    var pictureId;
     if (evt.target.className === 'picture__img') {
+      pictureId = evt.target.getAttribute('id');
+    } else if (evt.target.children[0].className === 'picture__img') {
       evt.preventDefault();
-      bigPhotoContainer.classList.remove('hidden');
-
-      var pictureId = evt.target.getAttribute('id');
-      var takeNumber = arr[pictureId].comments.length > MAX_COMMENT ? MAX_COMMENT : arr[pictureId].comments.length;
-
-      openComments.textContent = takeNumber;
-      getBigPhoto(arr[pictureId]);
-      getComment(arr[pictureId], takeNumber);
-
-      commentUploadButton.addEventListener('click', function () {
-        var hiddenComments = arr[pictureId].comments.length - takeNumber;
-        if (hiddenComments > MAX_COMMENT) {
-          takeNumber += MAX_COMMENT;
-          getComment(arr[pictureId], takeNumber);
-          openComments.textContent = takeNumber;
-        } else {
-          getComment(arr[pictureId], arr[pictureId].comments.length);
-          openComments.textContent = arr[pictureId].comments.length;
-          commentUploadButton.classList.add('visually-hidden');
-        }
-      });
+      pictureId = evt.target.children[0].getAttribute('id');
     }
+    createBigPhotoItems(arr[pictureId]);
+    bigPhotoContainer.classList.remove('hidden');
 
     bigPhotoClose.addEventListener('click', function () {
       bigPhotoContainer.classList.add('hidden');
     });
   };
 
-  window.utils.photoList.addEventListener('click', function (evt) {
-    openBigPhoto(evt, window.photoCollection);
+  var openBigPhoto = function (evt) {
+    createBigPhoto(evt, window.photoCollection);
     var onBigPhotoContainerEscPress = window.utils.closeEsc(bigPhotoContainer);
     document.addEventListener('keydown', onBigPhotoContainerEscPress);
+  };
+
+  window.utils.photoList.addEventListener('click', function (evt) {
+    openBigPhoto(evt);
   });
 
   window.picture = {
-    openBigPhoto: openBigPhoto
+    createBigPhoto: createBigPhoto
   };
 })();
