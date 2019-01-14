@@ -9,6 +9,7 @@
   var commentUploadButton = bigPhotoContainer.querySelector('.social__comments-loader');
   var bigPhotoClose = bigPhotoContainer.querySelector('.big-picture__cancel');
   var openComments = bigPhotoContainer.querySelector('.comments-open');
+  var imgFiltersButton = document.querySelectorAll('.img-filters__button');
 
   var renderComment = function (comments) {
     var commentElement = bigPhotoContainer.querySelector('.social__comment').cloneNode(true);
@@ -46,9 +47,7 @@
     bigPhotoContainer.querySelector('.comments-count')
         .textContent = photoElement.comments.length;
 
-    bigPhotoContainer.querySelector('.big-picture__img')
-        .querySelector('img')
-        .src = photoElement.url;
+    bigPhotoContainer.querySelector('.big-picture__img img').src = photoElement.url;
   };
 
   var createBigPhotoItems = function (photo) {
@@ -76,29 +75,38 @@
     var pictureId;
     if (evt.target.className === 'picture__img') {
       pictureId = evt.target.getAttribute('id');
-    } else if (evt.target.children[0].className === 'picture__img') {
+      createBigPhotoItems(arr[pictureId]);
+      bigPhotoContainer.classList.remove('hidden');
+
+      bigPhotoClose.addEventListener('click', function () {
+        bigPhotoContainer.classList.add('hidden');
+      });
+
+    } else if (evt.target.className === 'picture') {
       evt.preventDefault();
       pictureId = evt.target.children[0].getAttribute('id');
-    }
-    createBigPhotoItems(arr[pictureId]);
-    bigPhotoContainer.classList.remove('hidden');
+      createBigPhotoItems(arr[pictureId]);
+      bigPhotoContainer.classList.remove('hidden');
 
-    bigPhotoClose.addEventListener('click', function () {
-      bigPhotoContainer.classList.add('hidden');
-    });
+      bigPhotoClose.addEventListener('click', function () {
+        bigPhotoContainer.classList.add('hidden');
+      });
+    }
   };
 
-  var openBigPhoto = function (evt) {
-    createBigPhoto(evt, window.photoCollection);
+  var openBigPhoto = function (evt, photos) {
+    createBigPhoto(evt, photos);
     var onBigPhotoContainerEscPress = window.utils.closeEsc(bigPhotoContainer);
     document.addEventListener('keydown', onBigPhotoContainerEscPress);
   };
 
   window.utils.photoList.addEventListener('click', function (evt) {
-    openBigPhoto(evt);
+    if (evt.target.className === 'picture__img' || evt.target.className === 'picture') {
+      if (imgFiltersButton[0].className === 'img-filters__button  img-filters__button--active') {
+        openBigPhoto(evt, window.photoCollection);
+      } else {
+        openBigPhoto(evt, window.newPhotoCollection);
+      }
+    }
   });
-
-  window.picture = {
-    createBigPhoto: createBigPhoto
-  };
 })();

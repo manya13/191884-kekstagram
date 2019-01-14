@@ -10,7 +10,7 @@
       item.remove();
     });
 
-    var newPhotoCollection = [];
+    window.newPhotoCollection = [];
 
     if (evt.target.id === 'filter-popular') {
       newPhotoCollection = window.photoCollection;
@@ -23,10 +23,6 @@
     }
 
     window.render.createGallery(newPhotoCollection);
-
-    window.utils.photoList.addEventListener('click', function (openEvt) {
-      window.picture.createBigPhoto(openEvt, newPhotoCollection);
-    });
 
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
     evt.target.classList.add('img-filters__button--active');

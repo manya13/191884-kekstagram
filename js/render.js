@@ -8,11 +8,12 @@
 
   var renderPhoto = function (photo, id) {
     var photoElement = photoTemplate.cloneNode(true);
+    var pictureImg = photoElement.querySelector('.picture__img');
 
-    photoElement.querySelector('.picture__img').src = photo.url;
+    pictureImg.src = photo.url;
+    pictureImg.setAttribute('id', id);
     photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__img').setAttribute('id', id);
 
     return photoElement;
   };
