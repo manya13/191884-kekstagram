@@ -51,6 +51,7 @@
   };
 
   var uploadPhoto = function (button, img) {
+    img.src = '';
     var file = button.files[0];
     var fileName = file.name.toLowerCase();
 
